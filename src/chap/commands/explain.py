@@ -8,7 +8,7 @@ import sys
 import click
 import rich
 
-from ..session import Session
+from ..session import Session  # pylint: disable=relative-beyond-top-level
 
 bold = "\033[1m"
 nobold = "\033[m"
@@ -72,7 +72,6 @@ def verbose_ask(api, session, q):
         printer = WrappingPrinter()
     else:
         printer = DumbPrinter()
-    tokens = []
 
     async def work():
         async for token in api.aask(session, q):
