@@ -16,7 +16,7 @@ package-dir = {"" = "src"}
 where = ["src"]
 
 [project]
-name="chap-command-expain"
+name="chap-command-explain"
 authors = [{name = "Jeff Epler", email = "jepler@gmail.com"}]
 description = "Example command plugin for chap"
 dynamic = ["readme","version"]
@@ -32,8 +32,8 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 [project.urls]
-homepage = "https://github.com/jepler/chap-command-expain"
-repository = "https://github.com/jepler/chap-command-expain"
+homepage = "https://github.com/jepler/chap-command-explain"
+repository = "https://github.com/jepler/chap-command-explain"
 
 [tool.setuptools_scm]
 [tool.setuptools.dynamic]

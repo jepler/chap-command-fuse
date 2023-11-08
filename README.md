@@ -11,9 +11,9 @@ A proof-of-concept command plug-in for chap.
 
 ## Installation
 
-If you installed chap with pip, then run `pip install chap-command-expain`.
+If you installed chap with pip, then run `pip install chap-command-explain`.
 
-If you installed chap with pipx, then run `pipx inject chap chap-command-expain`.
+If you installed chap with pipx, then run `pipx inject chap chap-command-explain`.
 
 ## Use
 
