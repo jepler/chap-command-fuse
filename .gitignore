@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: 2023 Jeff Epler <jepler@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+
+__pycache__
+*.egg-info/
+/build
+/dist
