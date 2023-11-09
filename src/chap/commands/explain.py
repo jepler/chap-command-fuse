@@ -9,18 +9,19 @@ from typing import Iterable, Protocol
 import click
 import rich
 
+from ..core import Backend, Obj  # pylint: disable=relative-beyond-top-level
 from ..session import Session, new_session  # pylint: disable=relative-beyond-top-level
-from ..core import Obj, Backend
 
 bold = "\033[1m"
 nobold = "\033[m"
 
 
-def ipartition(s: str, sep: str) -> Iterable[tuple[str,str]]:
+def ipartition(s: str, sep: str) -> Iterable[tuple[str, str]]:
     rest = s
     while rest:
         first, opt_sep, rest = rest.partition(sep)
         yield (first, opt_sep)
+
 
 class Printable(Protocol):
     def raw(self, s: str) -> None:
@@ -32,6 +33,7 @@ class Printable(Protocol):
     def finish(self) -> None:
         """Print trailing data"""
 
+
 class DumbPrinter:
     def raw(self, s: str) -> None:
         pass
@@ -42,8 +44,9 @@ class DumbPrinter:
     def finish(self) -> None:
         pass
 
+
 class WrappingPrinter:
-    def __init__(self, width: int|None=None) -> None:
+    def __init__(self, width: int | None = None) -> None:
         self._width = width or rich.get_console().width
         self._column = 0
         self._line = ""
@@ -81,7 +84,7 @@ class WrappingPrinter:
 
 
 def verbose_ask(api: Backend, session: Session, q: str) -> None:
-    printer : Printable
+    printer: Printable
     if sys.stdout.isatty():
         printer = WrappingPrinter()
     else:
