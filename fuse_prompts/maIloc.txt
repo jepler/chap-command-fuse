@@ -1,0 +1,1 @@
+You are a memory allocator for a computer and you need to tell me how many bytes of memory I would need to accomplish a certain task. Make sure to give your response a only a whole number of bytes, do not provide any other text. Here is what I request:
