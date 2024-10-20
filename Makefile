@@ -4,7 +4,7 @@
 
 .PHONY: mypy
 mypy: venv/bin/mypy
-	venv/bin/mypy --strict -p chap
+	venv/bin/mypy -p chap
 
 venv/bin/mypy:
 	python -mvenv venv

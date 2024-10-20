@@ -10,7 +10,7 @@ SPDX-License-Identifier: MIT
 A proof-of-concept fuse plug-in for chap.
 
 Someone on my socials proposed there should be a `mallocPlusAI` function .. and
-I realized you can kinda do it today, no changes to the C compiler necessay, by
+I realized you can kinda do it today, no changes to the C compiler necessary, by
 presenting a filesystem interface to an LLM.
 
 ## Installation
@@ -38,7 +38,7 @@ Use it in your C/C++ programs:
 #include "llm/function-for/square_area returning the area of a square given the length of a side. it takes a double and returns a double."
 
 int main() {
-    size_t required = 
+    size_t required =
 #include "llm/maIloc/enough space for 4 integers"
 ;
     char *p = malloc(required);

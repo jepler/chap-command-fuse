@@ -2,19 +2,18 @@
 #
 # SPDX-License-Identifier: MIT
 
-import os, stat, errno
-
 import collections
-import sys
-from typing import Iterable, Protocol
+import errno
+import os
+import stat
 
 import click
+import fuse  # type: ignore
 import platformdirs
-import fuse
-from fuse import Fuse
+from fuse import Fuse  # type: ignore
 
-from ..core import Backend, Obj  # pylint: disable=relative-beyond-top-level
-from ..session import Session, new_session  # pylint: disable=relative-beyond-top-level
+from ..core import Obj  # pylint: disable=relative-beyond-top-level
+from ..session import new_session  # pylint: disable=relative-beyond-top-level
 
 fuse.fuse_python_api = (0, 2)
 
@@ -32,6 +31,7 @@ class MyStat(fuse.Stat):
         self.st_mtime = 0
         self.st_ctime = 0
 
+
 def gather_prompts():
     result = {}
     prompts_dir = platformdirs.user_config_path("chap") / "fuse_prompts"
@@ -39,9 +39,12 @@ def gather_prompts():
         result[path.stem] = path.read_text(encoding="utf-8")
     return result
 
+
 def split_path(p):
-    if p == "/": return []
+    if p == "/":
+        return []
     return p.split("/")[1:]
+
 
 class ChapFS(Fuse):
     def __init__(self, api, *args, **kw):
@@ -99,7 +102,7 @@ Serve LLM responses in a filesystem
             print("incorrect parts len ***")
             return -errno.ENOENT
         prompt, query = parts
-        if not prompt in self.prompts:
+        if prompt not in self.prompts:
             print("not in prompts !!!")
             return -errno.ENOENT
         accmode = os.O_RDONLY | os.O_WRONLY | os.O_RDWR
@@ -112,12 +115,12 @@ Serve LLM responses in a filesystem
             print("incorrect parts len ***", len(parts))
             return -errno.ENOENT
         prompt, query = parts
-        if not prompt in self.prompts:
+        if prompt not in self.prompts:
             print("not in prompts !!!")
             return -errno.ENOENT
 
         c = self.ask(self.prompts[prompt], query).encode("utf-8")
-        return c[offset:offset+size]
+        return c[offset : offset + size]
 
     def ask(self, system_prompt, query):
         cache = self.cached[system_prompt]
@@ -126,11 +129,14 @@ Serve LLM responses in a filesystem
             session = new_session(system_prompt)
             c = self.api.ask(session, query)
             lines = c.splitlines()
-            if lines and lines[0].startswith('```'): del lines[0]
-            if lines and lines[-1].startswith('```'): del lines[-1]
+            if lines and lines[0].startswith("```"):
+                del lines[0]
+            if lines and lines[-1].startswith("```"):
+                del lines[-1]
             c = "\n".join(lines) + "\n"
             cache[query] = c
         return c
+
 
 @click.command(
     context_settings=dict(
@@ -144,7 +150,7 @@ def main(obj: Obj, fuse_args: str) -> None:
     api = obj.api
     assert api is not None
     server = ChapFS(api)
-    server.parse(["chap-fuse"] +  list(fuse_args), errex=1)
+    server.parse(["chap-fuse"] + list(fuse_args), errex=1)
     server.main()
 
 
